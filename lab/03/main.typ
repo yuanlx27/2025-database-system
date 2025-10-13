@@ -15,6 +15,18 @@
 
 + 数据库管理系统：MariaDB 12.0.2
 
+运行
+
+```sh
+podman run --detach \
+           --env MARIADB_ROOT_PASSWORD=your_password \
+           --name mariadb-server \
+           --publish 3306:3306 \
+           mariadb:latest
+```
+
+创建一个带有 MariaDB 的 Podman 容器。与 Docker 不同，Podman 会将本地的普通用户映射到容器内的根用户，既保证了安全性，也省去了不必要的配置步骤。
+
 = 实验内容
 
 == 创建数据库以及表
@@ -73,11 +85,35 @@
   ),
 ) <tab-3>
 
+#raw(block: true, lang: "sql", read("assets/dingbao.sql").split("\n").slice(0, 53).join("\n"))
+
 == 创建和使用视图
 
-(1) 在 dingbao 数据库中创建含有顾客编号、顾客名称、报纸编号、报纸名称、订阅份数等信息的视图，视图名为 C_P_N。
-(2) 修改已创建的视图C_P_N,使其含报纸单价信息。
-(3) 通过视图C_P_N查询“人民日报”被订阅的情况，能通过视图C_P_N实现对数
-据的更新操作吗？请尝试各种更新操作，例如修改某人订阅某报的份数，修改某报的名
-称等。
-(4) 删除视图C_P_N。
++ 在 dingbao 数据库中创建含有顾客编号、顾客名称、报纸编号、报纸名称、订阅份数等信息的视图，视图名为 C_P_N。
+
+  #raw(block: true, lang: "sql", read("assets/dingbao.sql").split("\n").slice(54, 67).join("\n"))
+
++ 修改已创建的视图 C_P_N，使其含报纸单价信息。
+
+  #raw(block: true, lang: "sql", read("assets/dingbao.sql").split("\n").slice(83, 86).join("\n"))
+
++ 通过视图 C_P_N 查询“人民日报”被订阅的情况，能通过视图 C_P_N 实现对数据的更新操作吗？请尝试各种更新操作，例如修改某人订阅某报的份数，修改某报的名称等。
+
+  #raw(block: true, lang: "sql", read("assets/dingbao.sql").split("\n").slice(87, 90).join("\n"))
+
++ 删除视图 C_P_N。
+
+  #raw(block: true, lang: "sql", read("assets/dingbao.sql").split("\n").at(95))
+
+完整代码见 `assets/dingbao.sql`。我们可以运行
+
+```
+mariadb -P 3306 -u root -p < assets/dingbao.sql
+```
+
+来执行脚本。运行结果如 @fig-1 所示。
+
+#figure(
+  caption: "SQL 脚本运行结果",
+  image(width: 80%, "assets/images/20251013-100241.png"),
+) <fig-1>
