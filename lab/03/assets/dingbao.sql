@@ -93,4 +93,4 @@ UPDATE c_p_n
 SET pna = '日报人民'
 WHERE pno = '000001';
 
-DROP VIEW IF EXISTS c_p_n;
+DROP VIEW c_p_n;
