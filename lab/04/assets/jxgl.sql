@@ -19,8 +19,7 @@ CREATE TABLE course (
 	cno INT PRIMARY KEY,
 	cname VARCHAR(20) NOT NULL,
 	cpno INT,
-	ccredit INT,
-	FOREIGN KEY (cpno) REFERENCES course(cno) ON DELETE SET NULL
+	ccredit INT
 );
 
 INSERT INTO course (cno, cname, cpno, ccredit) VALUES
